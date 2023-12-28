@@ -1,6 +1,5 @@
 import numpy as np
 from wave import open
-from Wave import Wave
 
 
 def get_signal_Hz(Hz, sample_rate, length_ts_sec):
@@ -32,7 +31,3 @@ ts_silence = [0]*sample_rate*1
 ## Add up to 7 seconds
 ## ------------------- ##
 ts = list(e) + list(g) + list(cM)
-
-audio = Wave(ts, sample_rate)
-
-audio.write('audio.wav')
