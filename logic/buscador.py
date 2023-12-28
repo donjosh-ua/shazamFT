@@ -10,7 +10,9 @@ song_name_index = load(open('song_index.dat', 'rb'))
 def score_hashes_against_database(hashes):
 
     matches_per_song = {}
+    
     for hash, (sample_time, _) in hashes.items():
+        
         if hash in database:
             matching_occurences = database[hash]
             for source_time, song_index in matching_occurences:
@@ -18,9 +20,7 @@ def score_hashes_against_database(hashes):
                     matches_per_song[song_index] = []
                 matches_per_song[song_index].append((hash, sample_time, source_time))
             
-
-    # %%
-    scores = {}
+    match_scores = {}
     for song_index, matches in matches_per_song.items():
         song_scores_by_offset = {}
         for hash, sample_time, source_time in matches:
@@ -34,12 +34,11 @@ def score_hashes_against_database(hashes):
             if score > max[1]:
                 max = (offset, score)
         
-        scores[song_index] = max
+        # print(song_scores_by_offset.items())
+        # match_scores[song_index] = max(song_scores_by_offset.items(), key=lambda item: item[1])
+        match_scores[song_index] = max
 
-    # Sort the scores for the user
-    scores = list(sorted(scores.items(), key=lambda x: x[1][1], reverse=True)) 
-    
-    return scores
+    return list(sorted(match_scores.items(), key=lambda x: x[1][1], reverse=True))
 
 
 def get_song_in_db(songname):
@@ -49,6 +48,9 @@ def get_song_in_db(songname):
     hashes = fngp.create_hashes(constellation, None)
     song_id, _ = score_hashes_against_database(hashes)[0]
 
-    print(f'{song_name_index[song_id].split("/")[-1]} is playing')
-    return song_name_index[song_id]
+    if song_id is None:
+        print('No se ha encontrado la cancion')
+        return None
+
+    return song_name_index[song_id] if song_id in song_name_index else None
 
