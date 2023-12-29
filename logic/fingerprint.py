@@ -2,9 +2,9 @@ import numpy as np
 from scipy import signal
 
 
-def create_constellation(audio, Fs, window_length=2, num_peaks=5):
+def create_constellation(audio, Fs, window_length=0.5, num_peaks=15):
 
-    window_length_samples = (lambda x: int(x) + x % 2)(window_length * Fs)
+    window_length_samples = (lambda x: x + x % 2)(int(window_length * Fs))
     constellation_map = []
     amount_to_pad = (lambda x: x - audio.size % x)(window_length_samples)
     song_input = np.pad(audio, (0, amount_to_pad))
@@ -50,7 +50,7 @@ def create_hashes(constellation_map, id_song=None):
     return hashes
 
 
-def freq_to_hash(freq, other_freq, diff, freq_upper=22_000, freq_bits=10):
+def freq_to_hash(freq, other_freq, diff, freq_upper=23_000, freq_bits=10):
 
     freq_binned = freq / freq_upper * (2 ** freq_bits)
     other_freq_binned = other_freq / freq_upper * (2 ** freq_bits)

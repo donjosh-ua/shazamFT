@@ -1,17 +1,14 @@
-import buscador as bs
 import data_methods as dm
+import buscador as bs
 
 
 if __name__ == '__main__':
 
-    # Descomentar esta linea para cargar canciones a la base de datos
+    # Descomentar estas lineas para cargar canciones a la base de datos
+    # Solo cargar cancions ligeras porque el proceso es muy tardado
+    # dm.drop_db()
     # dm.load_db('./data')
 
     # Direccion del archivo de muestra de audio para realizar la busqueda
-    archivo_wav = 'logic/recording.wav'
-
-    try:
-        cancion = bs.get_song_in_db(archivo_wav) 
-        print(f'{cancion.split('/')[-1] + ' is playing' if cancion is not None else "No se encontró"}')
-    except FileNotFoundError:
-        print('No se ha encontrado el archivo')
+    input_wav = 'logic/recording.wav'
+    bs.print_matches(input_wav, num_matches=1)
