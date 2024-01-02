@@ -2,15 +2,7 @@ from pickle import load
 from scipy.io.wavfile import read
 import fingerprint as fngp
 
-
-try:
-    database = load(open('database.dat', 'rb'))
-    song_name_index = load(open('song_index.dat', 'rb'))
-except FileNotFoundError:
-    pass
-
-
-def score_hashes_against_database(hashes):
+def score_hashes_against_database(hashes, database):
 
     matches_per_song = {}
     for hash, (sample_time, _) in hashes.items():
@@ -42,26 +34,19 @@ def score_hashes_against_database(hashes):
     
     return scores
 
-def get_song_in_db(songname):
-    
-    Fs, audio_input = read(songname)
-    constellation = fngp.create_constellation(audio_input, Fs)
-    hashes = fngp.create_hashes(constellation, None)
-    song_id, _ = score_hashes_against_database(hashes)[0]
-
-    if song_id is None:
-        print('No se ha encontrado la cancion')
-        return None
-
-    return song_name_index[song_id] if song_id in song_name_index else None
-
 def print_matches(file_name, num_matches=1):
+    
+    try:
+        database = load(open('database.dat', 'rb'))
+        song_name_index = load(open('song_index.dat', 'rb'))
+    except FileNotFoundError:
+        pass
 
     Fs, audio_input = read(file_name)
     constellation = fngp.create_constellation(audio_input, Fs)
     hashes = fngp.create_hashes(constellation, None)
 
-    scores = score_hashes_against_database(hashes)[:num_matches]
+    scores = score_hashes_against_database(hashes, database)[:num_matches]
     print(f'Cancion con mayor parecido\n{song_name_index[scores.pop(0)[0]].split("/")[-1]}')
     if num_matches == 1:
         return

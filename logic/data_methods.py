@@ -1,7 +1,6 @@
 from glob import glob
 from pickle import dump
 from scipy.io.wavfile import read
-from tqdm import tqdm
 import fingerprint as fngp
 from os import remove
 
@@ -23,14 +22,13 @@ def load_db(folder: str):
     song_name_index = {}
     database = {}
 
-    for index, filename in enumerate(tqdm(sorted(songs))):
+    for index, filename in enumerate(sorted(songs)):
         # Se crea una constelacion de puntos para cada cancion y su respectivo hash
         # La constelacion vendria a ser el identificador de la cancion en el dominio de frecuencias
         song_name_index[index] = filename
         print(f'Procesando {filename.split('/')[-1]}...')
 
         Fs, audio_input = read(filename)
-        audio_input = audio_input.reshape(-1)
         constellation = fngp.create_constellation(audio_input, Fs)
         hashes = fngp.create_hashes(constellation, index)
 
@@ -38,7 +36,6 @@ def load_db(folder: str):
             if hash not in database:
                 database[hash] = []
             database[hash].append(time_index_pair)
-
 
     # Guardado de los codigos hash
     with open(db_name, 'wb') as db:
