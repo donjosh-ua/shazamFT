@@ -21,9 +21,10 @@ def create_constellation(audio, Fs, window_length=0.5, num_peaks=12):
 
         # Encuentra las frecuencias mas importantes en la ventana
         peaks, props = signal.find_peaks(spectrum, prominence=0, distance=200)
-        
+        n_peaks = min(num_peaks, len(peaks))
+
         # Filtra las n frecuencias mas importantes
-        largest_peaks = np.argpartition(props["prominences"], -num_peaks)[-num_peaks:]
+        largest_peaks = np.argpartition(props["prominences"], -n_peaks)[-n_peaks:]
 
         constellation_map += [[time_index, frequencies[peak]] for peak in peaks[largest_peaks]]
 
