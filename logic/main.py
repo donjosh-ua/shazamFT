@@ -1,13 +1,20 @@
-import data_methods as dm
 from buscador import print_matches
 
 
 if __name__ == '__main__':
 
-    # Descomentar estas lineas para cargar canciones a la base de datos
-    # Solo cargar cancions ligeras porque el proceso es muy tardado
-    # dm.drop_db()
-    # dm.load_db('./data')
+    #Canciones almacenadas en la base de datos
+    
+    # Avicii - Wake Me Up
+    # Bruno Mars - When I Was Your Man
+    # Charlie Puth - We Dont Talk Anymore
+    # Ed Sheeran - Thinking Out Loud
+    # Green Day - Boulevard Of Broken Dreams
+    # MAGIC! - Rude
+    # OneRepublic - Counting Stars
+    # PUBLIC - Make You Mine
+    # Radiohead - Creep
+    # Shawn Mendes - Treat You Better
 
     # Direccion del archivo de muestra de audio para realizar la busqueda
     input_wav = 'logic/recording.wav'
