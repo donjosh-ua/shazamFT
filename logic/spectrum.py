@@ -24,7 +24,7 @@ def plot_spectrogram(audio, Fs, window_length=0.5):
 
     # Crear el gráfico del espectrograma
     plt.figure(figsize=(10, 6))
-    plt.imshow(spectrogram.T, aspect='auto', origin='lower', extent=[0, len(audio) / Fs, 0, Fs / 2])
+    plt.imshow(spectrogram.T, aspect='auto', origin='lower', extent=[0, len(audio) / Fs, 0, frequencies[-1]])
     plt.colorbar(label='Magnitud')
     plt.xlabel('Tiempo')
     plt.ylabel('Frecuencia (Hz)')
