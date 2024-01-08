@@ -19,8 +19,6 @@ def plot_spectrogram(audio, Fs, window_length=0.5):
                                            nfft=window_length_samples, 
                                            return_onesided=True)
 
-    time_index, freq_bins = stft.shape
-
     # Obtener la matriz de magnitudes (parte real) para el espectrograma
     spectrogram = np.abs(stft)
 
