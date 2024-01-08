@@ -3,8 +3,12 @@ from scipy import signal
 
 
 def create_constellation(audio, Fs, window_length=0.5, num_peaks=12):
-
-    audio = audio.reshape(-1)
+    #Determina si el audio esta en uno o dos canales
+    if audio.ndim == 1 :
+        audio = audio.reshape(-1)
+    else :
+         audio = audio[:, 0].ravel()
+        
     window_length_samples = (lambda x: x + x % 2)(int(window_length * Fs))
     constellation_map = []
     amount_to_pad = (lambda x: x - audio.size % x)(window_length_samples)
